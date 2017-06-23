@@ -8,10 +8,9 @@
 
 import cv2
 
-def CatchUsbVideo(path,window_name):
+def CatchUsbVideo(window_name):
     '''
     从摄像头实时检测人脸，并用方框框起来
-    :param path: haarcascade_frontalface_alt2.xml文件的路径
     :param window_name: 显示窗口的名字
     :return: 检测窗口
     '''
@@ -20,7 +19,7 @@ def CatchUsbVideo(path,window_name):
     # 视频来源，0默认本地摄像头
     cap = cv2.VideoCapture(0)
 
-    classfier = cv2.CascadeClassifier(path)
+    classfier = cv2.CascadeClassifier('haarcascades/haarcascade_frontalface_alt2.xml')
     color = (0, 255, 0)
 
     while cap.isOpened():
