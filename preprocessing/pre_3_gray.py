@@ -7,7 +7,7 @@
 '''
 import cv2
 import glob,os
-def preGray(path):
+def pre_gray(path):
     '''
     把图片变成灰度图
     :param path: 图片路径
@@ -24,5 +24,5 @@ def preGray(path):
 
 if __name__ == '__main__':
     # preGray(r'F:\image\imageData4\negative\front\pre\640\*.jpg')
-    preGray(r'C:\Users\Silance\Desktop\1-1 ts_s.jpg')
+    pre_gray(r'2.jpg')
 

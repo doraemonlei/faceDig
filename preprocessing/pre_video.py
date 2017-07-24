@@ -8,7 +8,7 @@
 
 import cv2
 
-def CatchUsbVideo(window_name):
+def catch_usb_video(window_name):
     '''
     从摄像头实时检测人脸，并用方框框起来
     :param window_name: 显示窗口的名字
@@ -48,4 +48,4 @@ def CatchUsbVideo(window_name):
 
 
 if __name__ == '__main__':
-    CatchUsbVideo()
+    catch_usb_video()

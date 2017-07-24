@@ -7,7 +7,7 @@
 '''
 import cv2
 import glob,os
-def preZoom(path,width,height):
+def pre_zoom(path,width,height):
     '''
     图像尺寸变换
     :param path:文件，图像的路径
@@ -20,9 +20,9 @@ def preZoom(path,width,height):
         img = cv2.imread(file)
         a,b = file.split('.')
         fileneme = a+'_zoom.'+b
-        prefile = cv2.resize(img,(width,height))
+        prefile = cv2.resize(img,(height,width))
         cv2.imwrite(fileneme,prefile)
 
 
 if __name__ == '__main__':
-    preZoom()
+    pre_zoom()

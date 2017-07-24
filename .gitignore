@@ -99,3 +99,8 @@ ENV/
 # http://www.jetbrains.com/pycharm/webhelp/project.html
 .idea/
 .iml
+
+#img
+*.jpg
+*.png
+test/

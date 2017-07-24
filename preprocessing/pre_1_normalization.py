@@ -8,27 +8,45 @@
 # !/usr/bin/env python
 
 import cv2
+from tools import tool_get_grey_image
+from tools import tool_face_detection_byopencv
 
-def imgCrop(path,imgName):
-    '''
-    人脸剪裁
-    :param path:图片路径
-    :param imgName: 剪裁后保存路径及文件名
-    :return: 保存图像
-    '''
-    face_cascade = cv2.CascadeClassifier('haarcascades\haarcascade_frontalface_default.xml')
+def show_image(path):
 
-    img = cv2.imread(path)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    for (x,y,w,h) in faces:
-        x1 = x-20
-        y1 = y-20
-        x2 = x+w+40
-        y2 = y+h+40
-        crop = img[y1:y2,x1:x2]
+    img = tool_get_grey_image.get_img(path)
 
-    cv2.imwrite(imgName, crop)
+    face_cascade = cv2.CascadeClassifier('../tools/haarcascades/haarcascade_frontalface_alt.xml')
+    faces = face_cascade.detectMultiScale(img, 1.3, 5)
+
+    eye_cascade = cv2.CascadeClassifier('../tools/haarcascades/haarcascade_eye_tree_eyeglasses.xml')
+    eyes = eye_cascade.detectMultiScale(img, 1.1, 5)
+    for (x, y, w, h) in faces:
+        crop = img[y:y + h, x:x + w]
+        cv2.rectangle(crop, (x, y), (x + w, y + h), (255, 0, 255), 2)
+
+        eyes = tool_face_detection_byopencv.eye_dect(img)
+        for (ex, ey, ew, eh) in eyes:
+            cv2.rectangle(crop, (ex, ey), (ex + ew, ey + eh), (0, 255, 0), 2)
+
+        cv2.imshow('img', img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+def img_crop(path):
+
+    img = tool_get_grey_image.get_img(path)
+    face_cascade = cv2.CascadeClassifier('../tools/haarcascades/haarcascade_frontalface_alt.xml')
+    faces = face_cascade.detectMultiScale(img, 1.3, 5)
+    # faces = tool_face_detection.face_dect(img)
+    i = 1
+    for (x, y, w, h) in faces:
+        n = path.split('/')[-1]
+        print n
+        crop = img[y:y + h, x:x + w]
+        cv2.imwrite(('%s_' + n) % i, crop)
+        i += 1
 
 if __name__ == '__main__':
-    imgCrop()
+
+    # img_crop('../test/or/326.jpg')
+    show_image('../test/or/326.jpg')
