@@ -13,23 +13,28 @@ import numpy as np
 import glob
 import os
 
+
 def get_forehead_feature(img):
     img,landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
     forehead_distance = np.linalg.norm(landmarks[26] - landmarks[17])
     return forehead_distance
 
+
 def get_melanocyticNevus_feature(img):
     melanocyticNevus_num = tool_blob_detection.blob_detection(img)
     return melanocyticNevus_num
+
 
 def get_epicanthus_feature(img):
     eye_feature = tool_get_gabor_feature.get_gabor_feature(img)
     return eye_feature
 
+
 def get_nasalBridge_feature(img):
     img, landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
     nasalBridge_distance = np.linalg.norm(landmarks[33] - landmarks[30])
     return nasalBridge_distance
+
 
 def get_ocular_feature(img):
     img, landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
@@ -62,4 +67,5 @@ def main2(path):
     local_list = [v1,v2,v3,v4,v5]
     return local_list
 if __name__ == '__main__':
-    print main(r'F:\image\all\pp\p\*.jpg')
+    # print main(r'F:\image\all\pp\p\*.jpg')
+    print main2(r'../test/ts.jpg')

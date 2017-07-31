@@ -9,10 +9,9 @@ import cv2
 import numpy as np
 import tool_get_grey_image as gi
 
+
 def blob_detection(img):
-
-
-    #初始化参数
+    # 初始化参数
     params = cv2.SimpleBlobDetector_Params()
     params.minArea = 15
     params.maxArea = 500
@@ -21,7 +20,7 @@ def blob_detection(img):
     params.maxCircularity = 10000
     detector = cv2.SimpleBlobDetector(params)
 
-    #检测斑点
+    # 检测斑点
     blobs = detector.detect(img)
     blobs_num = len(blobs)
     return blobs_num
@@ -33,6 +32,7 @@ def blob_detection(img):
     #     print b.class_id
     #     print b.octave
     #     print b.response
+
 
 def show_blob_image(path):
     img = gi.get_img(path)
@@ -48,22 +48,25 @@ def show_blob_image(path):
 
     # 检测斑点
     blobs = detector.detect(img)
-    #画出斑点
+    # 画出斑点
     im_with_keypoints = cv2.drawKeypoints(img, blobs, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
-    # Show keypoints
-    # for idx,point in enumerate(blobs):
-    #     pos = blobs[idx].pt
-    #     cv2.putText(img, str(idx), pos,
-    #                         fontFace=cv2.FONT_HERSHEY_DUPLEX,
-    #                         fontScale=0.5,
-    #                         color=(0, 0, 255))
     cv2.imshow("Keypoints", im_with_keypoints)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
+def get_blobs(img):
+    params = cv2.SimpleBlobDetector_Params()
+    params.minArea = 15
+    params.maxArea = 500
+    params.blobColor = 000
+    params.minCircularity = 10
+    params.maxCircularity = 10000
+    detector = cv2.SimpleBlobDetector(params)
 
-
+    # 检测斑点
+    blobs = detector.detect(img)
+    return blobs
 
 '''
 c源码，用于调整参数
@@ -102,5 +105,5 @@ SimpleBlobDetector::Params::Params()
 '''
 
 if __name__ == '__main__':
-    print blob_detection('../test/ts3.jpg')
-    show_blob_image('../test/ts3.jpg')
+    # print blob_detection('../test/ts3.jpg')
+    show_blob_image('../test/ts2.jpg')

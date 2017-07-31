@@ -11,10 +11,12 @@ import time
 import os
 import dlib
 import datetime
+# from tools import tool_get_grey_image
 
 def pre_crop_byopencv(path):
 
     img = cv2.imread(path,cv2.IMREAD_COLOR)
+    # img = tool_get_grey_image.get_img(path)
     face_cascade = cv2.CascadeClassifier('../tools/haarcascades/haarcascade_frontalface_alt_tree.xml')
     faces = face_cascade.detectMultiScale(img, 1.3, 5)
     print faces
@@ -69,8 +71,8 @@ def main1(imagepath,savepath):
 
 def main(imagepath,savepath):
     for path in glob.glob(imagepath):
-        c_face = pre_crop_bydlib(path)
-        # c_face = pre_crop_byopencv(path)
+        # c_face = pre_crop_bydlib(path)
+        c_face = pre_crop_byopencv(path)
         try:
             z_face = pre_zoom(c_face, 128, 128)
             g_face = pre_gray(z_face)
@@ -90,12 +92,11 @@ def get_fileName_and_ext(filename):
     return shotname
 
 if __name__ == '__main__':
-    # main2(r'F:\image\all\pre\npp\*.jpg',r'F:\image\all\pp\p')
     t1 = datetime.datetime.now()
-    main(r'F:\image\all\or\np\*.jpg',r'F:\image\all\test\dlib')
+    main(r'F:\image\all\or\*.jpg',r'F:\image\all\or')
     t2 = datetime.datetime.now()
     print (t2-t1).seconds
-    # main2(r'F:\image\all\all\*.jpg',r'F:\image\all\test\dlib')
+
 
 
 
