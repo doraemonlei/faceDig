@@ -7,7 +7,7 @@
 '''
 import numpy as np
 import cv2
-from tool_crop_eyesArea import get_eyes_area
+from tool_crop_faceArea import get_eyes_area
 from tool_normalization import normalizationToArray
 from tool_get_grey_image import get_img
 

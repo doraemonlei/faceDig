@@ -25,7 +25,7 @@ def pre_crop_byopencv(path):
         crop_face = img[y:y + h, x:x + w]
     return crop_face
 
-
+# dlib一幅图片有一张脸
 def pre_crop_bydlib(path):
 
     img = cv2.imread(path,cv2.IMREAD_COLOR)
@@ -39,6 +39,24 @@ def pre_crop_bydlib(path):
         y2 = face.bottom()
         crop_face = img[y1-20:y2+20,x1-20:x2+20]
     return crop_face
+
+# dlib一幅图片有多张脸
+def pre_crops_bydlib(path):
+
+    img = cv2.imread(path, cv2.IMREAD_COLOR)
+    detector = dlib.get_frontal_face_detector()
+    faces = detector(img, 1)
+    crop_faces = []
+    for face in faces:
+        print face
+        x1 = face.left()
+        y1 = face.top()
+        x2 = face.right()
+        y2 = face.bottom()
+        crop_face = img[y1 - 20:y2 + 20, x1 - 20:x2 + 20]
+        crop_faces.append(crop_face)
+    print crop_faces
+    return crop_faces
 
 def pre_zoom(img,width,height):
 
@@ -57,33 +75,22 @@ def pre_create_clahe(img):
 
     return clahe_face
 
-def main1(imagepath,savepath):
+def faces_main(imagepath,savepath):
     for path in glob.glob(imagepath):
-        or_face = cv2.imread(path,cv2.IMREAD_COLOR)
-        z_face = pre_zoom(or_face, 320, 320)
-        g_face = pre_gray(z_face)
-        clahe_face = pre_create_clahe(g_face)
-        filepath,filename = os.path.split(path)
-        name,ext = os.path.splitext(filename)
-        spath = os.path.join(savepath,name+'_%s.jpg' % time.time())
-        print spath
-        cv2.imwrite(spath,clahe_face)
-
-def main(imagepath,savepath):
-    for path in glob.glob(imagepath):
-        # c_face = pre_crop_bydlib(path)
-        c_face = pre_crop_byopencv(path)
-        try:
-            z_face = pre_zoom(c_face, 128, 128)
-            g_face = pre_gray(z_face)
-            clahe_face = pre_create_clahe(g_face)
-            filepath, filename = os.path.split(path)
-            name, ext = os.path.splitext(filename)
-            spath = os.path.join(savepath, name + '_%s.jpg' % time.time())
-            print spath
-            cv2.imwrite(spath, clahe_face)
-        except Exception as e:
-            print e
+        c_faces = pre_crops_bydlib(path)
+        for c_face in c_faces:
+            try:
+                z_face = pre_zoom(c_face, 128, 128)
+                time.sleep(0.1)
+                g_face = pre_gray(z_face)
+                clahe_face = pre_create_clahe(g_face)
+                filepath, filename = os.path.split(path)
+                name, ext = os.path.splitext(filename)
+                spath = os.path.join(savepath, name + '_%s.jpg' % time.time())
+                print spath
+                cv2.imwrite(spath, clahe_face)
+            except Exception as e:
+                print e
 
 
 def get_fileName_and_ext(filename):
@@ -92,10 +99,12 @@ def get_fileName_and_ext(filename):
     return shotname
 
 if __name__ == '__main__':
-    t1 = datetime.datetime.now()
-    main(r'F:\image\all\or\*.jpg',r'F:\image\all\or')
-    t2 = datetime.datetime.now()
-    print (t2-t1).seconds
+    # t1 = datetime.datetime.now()
+    # main(r'../test/ts5.png', r'../test/')
+    # t2 = datetime.datetime.now()
+    # print (t2-t1).seconds
+    # pre_crops_bydlib(r'../test/faces.jpg')
+    faces_main(r'../test/ts2.jpg', r'../test/')
 
 
 

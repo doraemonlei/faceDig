@@ -32,6 +32,7 @@ def get_landmarks(im):
     :return: 返回68*2的列表
     '''
     rects = detector(im, 1)
+    print("Number of faces detected: {}".format(len(rects)))
 
     if len(rects) > 1:
         raise TooManyFaces
@@ -50,13 +51,28 @@ def annote_landmarks(im, landmarks):
     im = im.copy()
     for idx, point in enumerate(landmarks):
         pos = (point[0, 0], point[0, 1])
-        cv2.putText(im, str(idx), pos,
-                    fontFace=cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
-                    fontScale=0.6,
-                    color=(0, 0, 255))
-        cv2.circle(im, pos, 3, color=(0, 255, 255))
+        # cv2.putText(im, str(idx), pos,
+        #             fontFace=cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
+        #             fontScale=0.6,
+        #             color=(0, 0, 255))
+        cv2.circle(im, pos, 0, color=(0, 255, 255),thickness=-1)
 
     return im
+
+
+#多张脸使用的一个例子
+def get_landmarks_m(im):
+
+    dets = detector(im, 1)
+    #脸的个数
+    print("脸的个数:%s" % len(dets))
+    for i in range(len(dets)):
+        facepoint = np.array([[p.x, p.y] for p in predictor(im, dets[i]).parts()])
+        for j in range(68):
+            #标记点
+            cv2.circle(im, (facepoint[j][0],facepoint[j][1]), 3, color=(0, 255, 255), thickness=-1)
+    return im
+
 
 def read_im_and_landmarks(img):
     '''
@@ -72,10 +88,17 @@ def read_im_and_landmarks(img):
     return im, s
 
 if __name__ == '__main__':
-    path = r'../test/2.jpg'
+    # path = r'../test/ts5_1502079739.0.jpg'
+    path = r'../test/faces.jpg'
 
-    img,landmarks = read_im_and_landmarks(path)
-    print path
-    print landmarks
-    print type(landmarks)
+    img = cv2.imread(path)
+
+    # img,landmarks = read_im_and_landmarks(img1)
+    # im = annote_landmarks(img,landmarks)
+    img = get_landmarks_m(img)
+    cv2.imshow('1',img)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+    # print landmarks
+    # print type(landmarks)
 

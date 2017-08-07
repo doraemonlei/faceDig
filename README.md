@@ -13,6 +13,8 @@
     │  .gitignore
     │  README.md
     │  requirements.txt
+    ├─causalAnalysis 因果分析，显示局部特征对分类的影响程度
+    │      show_degree.py
     ├─classification 自动分类预测
     │      local_adaboost.py
     ├─Documentation 文档
@@ -33,7 +35,7 @@
     └─tools 工具
         │  facedata.csv 训练数据
         │  tool_blob_detection.py 黑痣提取
-        │  tool_crop_eyesArea.py 眼睛区域提取
+        │  tool_crop_faceArea.py 脸部局部区域提取
         │  tool_csv.py 数据的csv处理
         │  tool_excel_openpyxl.py 数据excel处理
         │  tool_facedata.py 数据格式化
@@ -153,6 +155,14 @@ windows
     * Svm 对于全局特征使用了libsvm进行分类与预测，精确度较低。
     * Adaboost（local_adaboost.py）对局部特征使用Adaboost算法进行分类与预测，精确度较高。get_predictf返回预测结果，0代表未患病，1代表患病。get_probaf返回对于预测患病与不患病的概率（[不患病的概率，患病的概率]）
 
+* 因果分析(causalAnalysis)  
+主要用来分析脸部5个特征对于分类的影响程度。  
+颜色与数值对应（关联性从小到大）：
+    * 绿色-->0
+    * 蓝色-->1
+    * 黄色-->2
+    * 橙色-->3
+    * 红色-->4
 ## 使用方法
 三个步骤为分步执行，如需一次执行将三步写入一个脚本中即可。
 ### 预处理部分
@@ -163,3 +173,5 @@ local_feature.py->main2(预处理完成的图像路径)，执行完成后返回�
 ### 分类识别
 local_adaboost.py->get_predict(上一步提取的特征数据，迭代次数，步长)，返回预测值  
 local_adaboost.py->get_proba(上一步特征数据，迭代次数，步长)，返回预测0和1的可能性值
+### 因果分析
+show_degree.py->show_degree(图像路径, 使用local_feature.py->main2获得的人脸特征)，返回分析后的图像

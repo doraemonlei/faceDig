@@ -3,7 +3,7 @@
 '''
 @time: 2017/7/14 13:23
 @author: Silence
-截取眼睛区域
+截取脸部不同区域，包括眼睛长条区域，内眦赘皮邻域区域，前额区域，鼻梁区域，眼距区域
 '''
 import cv2
 import numpy as np
@@ -14,7 +14,7 @@ from tool_blob_detection import get_blobs
 
 
 def get_eyes_area(img):
-
+    # 截取眼睛长条区域
     img,landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
 
     # 取出眼睛各点坐标
@@ -55,7 +55,7 @@ def get_eyes_area(img):
 
 
 def get_epicanthus_area(img):
-    # img = cv2.imread(img, cv2.IMREAD_COLOR)
+    # 截取内眦赘皮邻域区域
     img, landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
 
     # 取出内眦处的两点（39，42）坐标
@@ -66,7 +66,7 @@ def get_epicanthus_area(img):
     right_y = landmarks[42].tolist()[0][1]
 
     # 扩展内眦两点坐标，取出内眦方形区域
-    move = 20
+    move = 10
     moveon = move*2
     x11 = left_x - move
     y11 = left_y - move
@@ -84,7 +84,7 @@ def get_epicanthus_area(img):
 
 
 def get_forehead_area(img):
-    # img = cv2.imread(img, cv2.IMREAD_COLOR)
+    # 截取前额区域
     img, landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
 
     # 取出代表前额的两点（19，24）坐标
@@ -106,7 +106,7 @@ def get_forehead_area(img):
 
 
 def get_nasalBridge_area(img):
-    # img = cv2.imread(img, cv2.IMREAD_COLOR)
+    # 截取鼻梁区域
     img, landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
 
     # 取出代表鼻梁的两点（29, 31, 33, 35）坐标
@@ -129,7 +129,7 @@ def get_nasalBridge_area(img):
 
 
 def get_ocular_area(img):
-    # img = cv2.imread(img, cv2.IMREAD_COLOR)
+    # 眼距，用连线表示
     img, landmarks = tool_get_landmarksAndImages.read_im_and_landmarks(img)
 
     # 取出内眦处的两点（39，42）坐标
@@ -150,6 +150,8 @@ def get_ocular_area(img):
     return ocular_area
 
 if __name__ == '__main__':
+    # 测试
+
     # print get_eyes_area('../test/ts2.jpg')
     # get_epicanthus_area('../test/ts4.jpg')
     # get_forehead_area('../test/ts4.jpg')
