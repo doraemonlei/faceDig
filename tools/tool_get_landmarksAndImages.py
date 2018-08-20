@@ -9,10 +9,9 @@ import cv2
 import dlib
 import numpy as np
 import glob
-# import tool_excel
-import openpyxl
+import dataset
 
-PREDICTOR_PATH = "D:\py2.7.12\Lib\site-packages\dlib-19.2.0-py2.7-win-amd64.egg\shape_predictor_68_face_landmarks.dat"
+PREDICTOR_PATH = dataset.PREDICTOR_PATH
 SCALE_FACTOR = 1
 FEATURE_AMOUNT = 11
 
@@ -32,7 +31,7 @@ def get_landmarks(im):
     :return: 返回68*2的列表
     '''
     rects = detector(im, 1)
-    print("Number of faces detected: {}".format(len(rects)))
+    # print("Number of faces detected: {}".format(len(rects)))
 
     if len(rects) > 1:
         raise TooManyFaces
@@ -51,10 +50,10 @@ def annote_landmarks(im, landmarks):
     im = im.copy()
     for idx, point in enumerate(landmarks):
         pos = (point[0, 0], point[0, 1])
-        # cv2.putText(im, str(idx), pos,
-        #             fontFace=cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
-        #             fontScale=0.6,
-        #             color=(0, 0, 255))
+        cv2.putText(im, str(idx), pos,
+                    fontFace=cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
+                    fontScale=0.6,
+                    color=(0, 0, 255))
         cv2.circle(im, pos, 0, color=(0, 255, 255),thickness=-1)
 
     return im
@@ -69,8 +68,14 @@ def get_landmarks_m(im):
     for i in range(len(dets)):
         facepoint = np.array([[p.x, p.y] for p in predictor(im, dets[i]).parts()])
         for j in range(68):
-            #标记点
-            cv2.circle(im, (facepoint[j][0],facepoint[j][1]), 3, color=(0, 255, 255), thickness=-1)
+            # 编号
+            cv2.putText(im, str(j), (facepoint[j][0],facepoint[j][1]),
+                        # fontFace=cv2.FONT_HERSHEY_SCRIPT_SIMPLEX,
+                        fontFace=cv2.FONT_HERSHEY_DUPLEX,
+                        fontScale=0.6,
+                        color=(255, 255, 255))
+            # 标记点
+            cv2.circle(im, (facepoint[j][0],facepoint[j][1]), 3, color=(0, 255, 255),thickness=-1)
     return im
 
 
@@ -88,17 +93,11 @@ def read_im_and_landmarks(img):
     return im, s
 
 if __name__ == '__main__':
-    # path = r'../test/ts5_1502079739.0.jpg'
-    path = r'../test/faces.jpg'
-
-    img = cv2.imread(path)
-
-    # img,landmarks = read_im_and_landmarks(img1)
-    # im = annote_landmarks(img,landmarks)
-    img = get_landmarks_m(img)
-    cv2.imshow('1',img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    # print landmarks
-    # print type(landmarks)
+    path = r'C:\Users\Silance\Desktop\12122_zoom_gray.jpg'
+    n = 1
+    for path in glob.glob(path):
+        img = cv2.imread(path)
+        img = get_landmarks_m(img)
+        cv2.imwrite('%s.jpg'%n, img)
+        n += 1
 

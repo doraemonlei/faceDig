@@ -33,5 +33,5 @@ def output_his_image(path):
         cv2.imwrite(filename,img1)
 
 if __name__ == '__main__':
-    output_his_image('2_gray.jpg')
+    output_his_image(r'C:\Users\Silance\Desktop\12122_zoom_gray.jpg')
 

@@ -46,6 +46,7 @@ def get_ocular_feature(img):
 def main(path,target=0):
     np_list = []
     for path in glob.glob(path):
+        print path
         img = tool_get_grey_image.get_img(path)
         v1 = round(get_forehead_feature(img), 2)
         v2 = round(get_nasalBridge_feature(img), 2)
@@ -67,5 +68,5 @@ def main2(path):
     local_list = [v1,v2,v3,v4,v5]
     return local_list
 if __name__ == '__main__':
-    # print main(r'F:\image\all\pp\p\*.jpg')
-    print main2(r'../test/ts.jpg')
+    # print main(r'I:\image\chidren_frontface\tp\*.jpg')
+    print main2(r'C:\Users\Silance\Desktop/12122_zoom_gray.jpg')

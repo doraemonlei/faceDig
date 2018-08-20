@@ -11,6 +11,8 @@ from os.path import dirname
 from os.path import join
 import numpy as np
 
+import dataset
+
 class Bunch(dict):
 
     def __init__(self, **kwargs):
@@ -32,11 +34,11 @@ class Bunch(dict):
         pass
 
 
-def load_facedata(return_X_y=False):
+def load_facedata(csv_path=dataset.FACEDATA_PATH, return_X_y=False):
 
     module_path = dirname(__file__)
     # print module_path
-    with open(join(module_path, 'facedata.csv')) as csv_file:
+    with open(join(module_path, csv_path)) as csv_file:
         data_file = csv.reader(csv_file)
         temp = next(data_file)
         # print temp

@@ -3,8 +3,8 @@
 '''
 @author: Silence
 每个特征数值越大，表示对于判断是否患病影响越大，所以从患病特征样本中计算出5分位数，
-从而将特征样本数值分成5个区域，当从新的一幅人脸图像中提取出新的特征后与这5个区域边
-界数值进行比较，从而在图像上显示不同的颜色，不同的数值。
+从而将特征样本数值分成5个区域，当从新的一幅人脸图像中提取出新的特征后与这5个分位数
+数值进行比较，从而在图像上显示不同的颜色，不同的数值。
 
 颜色与数值对应（关联性从小到大）：
 绿色-->0
@@ -107,12 +107,12 @@ def show_degree(path, sample):
         cv2.rectangle(
             img,
             (forehead_area[0],forehead_area[1]), (forehead_area[2],forehead_area[3]),
-            color=degree_1_blue,
+            color=degree_0_green,
             thickness=-1
         )
         cv2.putText(
             img,
-            '1',
+            '0',
             ((forehead_area[0]+forehead_area[2])/2, (forehead_area[1]+forehead_area[3])/2),
             font,
             fontScale=font_scale,
@@ -124,12 +124,12 @@ def show_degree(path, sample):
         cv2.rectangle(
             img,
             (forehead_area[0],forehead_area[1]), (forehead_area[2],forehead_area[3]),
-            color=degree_0_green,
+            color=degree_1_blue,
             thickness=-1
         )
         cv2.putText(
             img,
-            '0',
+            '1',
             ((forehead_area[0]+forehead_area[2])/2, (forehead_area[1]+forehead_area[3])/2),
             font,
             fontScale=font_scale,
@@ -196,12 +196,12 @@ def show_degree(path, sample):
         cv2.rectangle(
             img,
             (nasalBridge_area[0],nasalBridge_area[1]), (nasalBridge_area[2],nasalBridge_area[3]),
-            color=degree_1_blue,
+            color=degree_0_green,
             thickness=-1
         )
         cv2.putText(
             img,
-            '1',
+            '0',
             ((nasalBridge_area[0]+nasalBridge_area[2])/2, (nasalBridge_area[1]+nasalBridge_area[3])/2),
             font,
             fontScale=font_scale,
@@ -213,12 +213,12 @@ def show_degree(path, sample):
         cv2.rectangle(
             img,
             (nasalBridge_area[0],nasalBridge_area[1]), (nasalBridge_area[2],nasalBridge_area[3]),
-            color=degree_0_green,
+            color=degree_1_blue,
             thickness=-1
         )
         cv2.putText(
             img,
-            '0',
+            '1',
             ((nasalBridge_area[0]+nasalBridge_area[2])/2, (nasalBridge_area[1]+nasalBridge_area[3])/2),
             font,
             fontScale=font_scale,
@@ -283,12 +283,12 @@ def show_degree(path, sample):
     if sample[2] <= ocular_feature_degree[0]:
         cv2.line(img,
                  (ocular_area[0], ocular_area[1]), (ocular_area[2], ocular_area[3]),
-                 color=(0,0,255),
+                 color=degree_0_green,
                  thickness=1
         )
         cv2.putText(
             img,
-            '1',
+            '0',
             ((ocular_area[0]+ocular_area[2])/2, (ocular_area[1]+ocular_area[3])/2),
             font,
             fontScale=font_scale,
@@ -299,7 +299,7 @@ def show_degree(path, sample):
     elif ocular_feature_degree[0] < sample[1] <= ocular_feature_degree[1]:
         cv2.line(img,
                  (ocular_area[0], ocular_area[1]), (ocular_area[2], ocular_area[3]),
-                 color=(0, 0, 255),
+                 color=degree_1_blue,
                  thickness=1
         )
         cv2.putText(
@@ -315,7 +315,7 @@ def show_degree(path, sample):
     elif ocular_feature_degree[1] < sample[1] <= ocular_feature_degree[2]:
         cv2.line(img,
                  (ocular_area[0], ocular_area[1]), (ocular_area[2], ocular_area[3]),
-                 color=(0, 0, 255),
+                 color=degree_2_yellow,
                  thickness=1
         )
         cv2.putText(
@@ -331,7 +331,7 @@ def show_degree(path, sample):
     elif ocular_feature_degree[2] < sample[1] <= ocular_feature_degree[3]:
         cv2.line(img,
                  (ocular_area[0], ocular_area[1]), (ocular_area[2], ocular_area[3]),
-                 color=(0, 0, 255),
+                 color=degree_3_orange,
                  thickness=1
         )
         cv2.putText(
@@ -347,7 +347,7 @@ def show_degree(path, sample):
     else:
         cv2.line(img,
                  (ocular_area[0], ocular_area[1]), (ocular_area[2], ocular_area[3]),
-                 color=(0, 0, 255),
+                 color=degree_4_red,
                  thickness=1
         )
         cv2.putText(
@@ -369,12 +369,12 @@ def show_degree(path, sample):
                 img,
                 (x1, y1),
                 (x2, y2),
-                color=degree_1_blue,
+                color=degree_0_green,
                 thickness=-1
             )
             cv2.putText(
                 img,
-                '1',
+                '0',
                 ((x1+x2)/2, (y1+y2)/2),
                 font,
                 fontScale=font_scale,
@@ -408,12 +408,12 @@ def show_degree(path, sample):
                 img,
                 (x1, y1),
                 (x2, y2),
-                color=degree_1_blue,
+                color=degree_2_yellow,
                 thickness=-1
             )
             cv2.putText(
                 img,
-                '1',
+                '2',
                 ((x1+x2)/2, (y1+y2)/2),
                 font,
                 fontScale=font_scale,
@@ -427,12 +427,12 @@ def show_degree(path, sample):
                 img,
                 (x1, y1),
                 (x2, y2),
-                color=degree_1_blue,
+                color=degree_3_orange,
                 thickness=-1
             )
             cv2.putText(
                 img,
-                '1',
+                '3',
                 ((x1+x2)/2, (y1+y2)/2),
                 font,
                 fontScale=font_scale,
@@ -446,12 +446,12 @@ def show_degree(path, sample):
                 img,
                 (x1, y1),
                 (x2, y2),
-                color=degree_1_blue,
+                color=degree_4_red,
                 thickness=-1
             )
             cv2.putText(
                 img,
-                '1',
+                '4',
                 ((x1+x2)/2, (y1+y2)/2),
                 font,
                 fontScale=font_scale,
@@ -460,16 +460,21 @@ def show_degree(path, sample):
             )
 
     # 显示黑痣
-    blobs = get_blobs(img)
-    img = cv2.drawKeypoints(img, blobs, np.array([]), (0, 0, 255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+    # blobs = get_blobs(img)
+    # img = cv2.drawKeypoints(img, blobs, np.array([]), (0, 0, 255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     cv2.imshow('1', img)
+    cv2.imwrite('2.jpg',img)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 if __name__ == '__main__':
 
-    path = r'F:\image\all\pp\p\5-1 TS_1500618890.04.jpg'
+    # path = r'F:\image\all\pp\p\5-1 TS_1500618890.04.jpg'
+    # path = r'F:\image\all\pp\p\2-TS_1500618888.15.jpg'
+    # path = r'C:\Users\Silance\Desktop\12122_zoom_gray_his.jpg'
+    path = r'F:\image\all\pp\p\28-1 TS_1500618888.71.jpg'
+    # path = r'F:\image\all\pp\n\9-1_1500618927.67.jpg'
     sample = main2(path)
     print 'sample:%s' % sample
     # sample = [442.37, 57.22, 0.44, 12, 67.04]

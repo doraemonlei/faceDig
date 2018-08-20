@@ -104,3 +104,4 @@ ENV/
 *.jpg
 *.png
 test/
+dataset/*

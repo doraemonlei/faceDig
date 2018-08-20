@@ -20,9 +20,14 @@ def pre_zoom(path,width,height):
         img = cv2.imread(file)
         a,b = file.split('.')
         fileneme = a+'_zoom.'+b
-        prefile = cv2.resize(img,(height,width))
+        prefile = cv2.resize(img,(width,height))
         cv2.imwrite(fileneme,prefile)
 
 
 if __name__ == '__main__':
-    pre_zoom()
+    img = cv2.imread(r'C:\Users\Silance\PycharmProjects\faceDig\test\1.jpg')
+    h = img.shape[0]/2
+    w = img.shape[1]/2
+    print img.shape
+    print h,w
+    pre_zoom(r'C:\Users\Silance\PycharmProjects\faceDig\test\1.jpg',w,h)

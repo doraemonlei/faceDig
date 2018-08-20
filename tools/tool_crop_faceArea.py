@@ -96,7 +96,8 @@ def get_forehead_area(img):
 
     # 扩展前额两点坐标，取出前额区域
     x1 = left_x
-    y1 = left_y - 50
+    # y1 = left_y - 50
+    y1 = left_y - 25
 
     x2 = right_x
     y2 = right_y

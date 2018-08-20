@@ -27,7 +27,8 @@ def Process():
     dest = cv.filter2D(src_f, cv.CV_32F,kernel)
     # print dest
     # cv.imshow('param',dest)
-    cv.imshow('fuzhi', dest)
+    # cv.imshow('fuzhi', dest)
+    print dest
     cv.imshow('Kernel', cv.resize(kernelimg, (kernel_size*20,kernel_size*20)))
     cv.imshow('Mag', np.power(dest,2))
 
@@ -62,7 +63,7 @@ def cb_gam(pos):
     Process()
     
 if __name__ == '__main__':
-    image = cv.imread(r"../test/2.jpg", 1)
+    image = cv.imread(r"../test/ts2.jpg", 1)
     cv.imshow('Src',image)
     src = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     #global src_f

@@ -8,22 +8,23 @@
 import csv
 from featureExtraction import local_feature
 import glob
-def input_csv(imgpath):
+def input_csv(imgpath,filepath,sam_num):
     face_data = local_feature.main(imgpath,target=1)
-    with open('facedata.csv', "wb") as f:
+    with open(filepath, "wb") as f:
         writer = csv.writer(f, delimiter = ',')
         writer.writerow(['forehead_feature','nasalBridge_feature',
                          'ocular_feature','melanocyticNevus_feature',
-                         'epicanthus_feature','target'])
+                         'epicanthus_feature','target',sam_num,5])
         for data in face_data:
             writer.writerow(data)
 
-def ainput_csv(imgpath):
+def ainput_csv(imgpath,filepath):
     face_data = local_feature.main(imgpath, target=0)
-    with open('facedata.csv', "ab") as f:
+    with open(filepath, "ab") as f:
         writer = csv.writer(f, delimiter=',')
         for data in face_data:
             writer.writerow(data)
 
 if __name__ == '__main__':
-    ainput_csv(r'F:\image\all\pp\n\*.jpg')
+    input_csv(r'I:\image\chidren_frontface\tp\*.jpg')
+    # ainput_csv(r'F:\image\8.17\test\n\*.jpg')

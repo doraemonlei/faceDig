@@ -61,76 +61,6 @@
 * scikit-image==0.12.3 图像处理
 * scikit-learn==0.18.1 分类预测
 
-其中*dlib*和*opencv*需要单独安装,其他库可用pip直接安装
-### dlib安装(http://dlib.net/)
-```shell
-linux
-首先尝试
-sudo apt-get install libboost-python-dev cmake
-sudo pip install dlib
-
-没有用的话下面的
-mkdir ~/src
-cd ~/src
-wget http://dlib.net/files/dlib-19.4.tar.bz2
-tar xvf dlib-19.4.tar.bz2
-cd dlib-19.4/python_examples
-mkdir build cd build
-cmake ../../tools/python
-cmake --build . --config Release
-sudo cp dlib.so /usr/local/lib/python2.7/dist-packages
-
-windows
-首先下载cmake安装
-然后下载boost库，根据提示：
-1)运行 bootstrap.bat. 生成三个文件，其中包括b2
-  -- bootstrap.bat
-2）运行b2
-  -- b2 install
-3) 利用b2编译库文件
- -- b2 -a --with-python address-model=64 toolset=msvc runtime-link=static
-这里遇到些问题， address-model=64参数设置出现问题，后改成32则成功。
-4)设置变量
-  -- set BOOST_ROOT=C:\local\boost_1_57_0
-  -- set BOOST_LIBRARYDIR=C:\local\boost_1_57_0\stage\lib
-将这两个变量设置到到Path变量中: %BOOST_ROOT%;%BOOST_LIBRARYDIR%
-5)然后运行pip install dlib
-
-```
-### opencv安装(http://opencv.org/opencv-3-2.html)
-```shell
-linux
-http://docs.opencv.org/3.1.0/dd/dd5/tutorial_py_setup_in_fedora.html
-
-安装依赖
-[compiler] sudo apt-get install build-essential
-[required] sudo apt-get install cmake git libgtk2.0-dev pkg-config libavcodec-dev libavformat-dev libswscale-dev
-[optional] sudo apt-get install python-dev python-numpy libtbb2 libtbb-dev libjpeg-dev libpng-dev libtiff-dev libjasper-dev libdc1394-22-dev
-
-git clone https://github.com/opencv/opencv.git
-cd ~/opencv
-mkdir release
-cd release
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-
-在执行这一步的时候经常出错，就是停在了下载ippicv的地方，一直都下载不下来。
-ippicv是一个并行计算库，其实可以不用的。
-如果不想用这个并行计算库，在做Cmake的时候用参数关闭即可，但我还是建议使用这个库。
-
-解决方法就是手动下载ippicv文件，然后直接拷贝到
-opencv-3.1.0/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e
-这个目录中
-
-cmake -D CMAKE_BUILD_TYPE=RELEASE -D CMAKE_INSTALL_PREFIX=/usr/local ..
-make
-make install
-
-再将
-release/lib中的cv2.so文件拷贝到Python的dist-packages中
-
-windows
-直接下载exe文件安装，然后找到pyd文件，拷贝。
-```
 ## 系统流程
 * 人脸图像预处理(preprocessing)
     * 人脸识别，人脸校正，人脸提取:识别出给定图像中的人脸，根据双眼位置对人脸进行旋转校正，提取出校正后的人脸（本系统中提取的图像为方形）。
@@ -163,6 +93,7 @@ windows
     * 黄色-->2
     * 橙色-->3
     * 红色-->4
+
 ## 使用方法
 三个步骤为分步执行，如需一次执行将三步写入一个脚本中即可。
 ### 预处理部分

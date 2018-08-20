@@ -24,5 +24,5 @@ def pre_gray(path):
 
 if __name__ == '__main__':
     # preGray(r'F:\image\imageData4\negative\front\pre\640\*.jpg')
-    pre_gray(r'2.jpg')
+    pre_gray(r'F:\课程设计\研二下\小论文发表\英文\918\图片\or\*.jpg')
 

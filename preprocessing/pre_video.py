@@ -48,4 +48,4 @@ def catch_usb_video(window_name):
 
 
 if __name__ == '__main__':
-    catch_usb_video()
+    catch_usb_video(1)

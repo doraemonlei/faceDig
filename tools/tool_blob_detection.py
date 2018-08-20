@@ -18,7 +18,12 @@ def blob_detection(img):
     params.blobColor = 000
     params.minCircularity = 10
     params.maxCircularity = 10000
-    detector = cv2.SimpleBlobDetector(params)
+    ver = (cv2.__version__).split('.')
+    if int(ver[0]) < 3:
+        detector = cv2.SimpleBlobDetector(params)
+    else:
+        detector = cv2.SimpleBlobDetector_create(params)
+    # detector = cv2.SimpleBlobDetector(params)
 
     # 检测斑点
     blobs = detector.detect(img)
@@ -39,12 +44,17 @@ def show_blob_image(path):
 
     # 初始化参数
     params = cv2.SimpleBlobDetector_Params()
-    params.minArea = 15
-    params.maxArea = 500
+    params.minArea = 18
+    params.maxArea = 2500
     params.blobColor = 000
-    params.minCircularity = 10
+    params.minCircularity = 100
     params.maxCircularity = 10000
-    detector = cv2.SimpleBlobDetector(params)
+    ver = (cv2.__version__).split('.')
+    if int(ver[0]) < 3:
+        detector = cv2.SimpleBlobDetector(params)
+    else:
+        detector = cv2.SimpleBlobDetector_create(params)
+    # detector = cv2.SimpleBlobDetector(params)
 
     # 检测斑点
     blobs = detector.detect(img)
@@ -52,17 +62,24 @@ def show_blob_image(path):
     im_with_keypoints = cv2.drawKeypoints(img, blobs, np.array([]), (0,0,255), cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
 
     cv2.imshow("Keypoints", im_with_keypoints)
+    cv2.imwrite('12122_zoom_gray_blob.jpg',im_with_keypoints)
     cv2.waitKey(0)
     cv2.destroyAllWindows()
 
 def get_blobs(img):
     params = cv2.SimpleBlobDetector_Params()
-    params.minArea = 15
-    params.maxArea = 500
+    params.minArea = 20
+    params.maxArea = 5000
     params.blobColor = 000
     params.minCircularity = 10
     params.maxCircularity = 10000
-    detector = cv2.SimpleBlobDetector(params)
+
+    ver = (cv2.__version__).split('.')
+    if int(ver[0]) < 3:
+        detector = cv2.SimpleBlobDetector(params)
+    else:
+        detector = cv2.SimpleBlobDetector_create(params)
+    # detector = cv2.SimpleBlobDetector(params)
 
     # 检测斑点
     blobs = detector.detect(img)
@@ -106,4 +123,4 @@ SimpleBlobDetector::Params::Params()
 
 if __name__ == '__main__':
     # print blob_detection('../test/ts3.jpg')
-    show_blob_image('../test/ts2.jpg')
+    show_blob_image('../test/12122_zoom_gray.jpg')
