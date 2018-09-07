@@ -10,8 +10,9 @@ import dlib
 import numpy as np
 import glob
 import dataset
+from matplotlib import pyplot as plt
 
-PREDICTOR_PATH = dataset.PREDICTOR_PATH
+PREDICTOR_PATH = dataset.LANDMARKS_5_PATH
 SCALE_FACTOR = 1
 FEATURE_AMOUNT = 11
 
@@ -92,12 +93,60 @@ def read_im_and_landmarks(img):
 
     return im, s
 
+def show_image(imagepath):
+    detector = dlib.get_frontal_face_detector()
+    predictor = dlib.shape_predictor(dataset.LANDMARKS_68_PATH)
+
+    # cv2读取图像
+    img = cv2.imread(imagepath)
+
+    # 取灰度
+    img_gray = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
+
+    # 人脸数rects
+    rects = detector(img_gray, 0)
+
+    for i in range(len(rects)):
+        landmarks = np.matrix([[p.x, p.y] for p in predictor(img, rects[i]).parts()])
+
+        for idx, point in enumerate(landmarks):
+            # 68点的坐标
+            pos = (point[0, 0], point[0, 1])
+
+            # 利用cv2.circle给每个特征点画一个圈，共68个
+            cv2.circle(img, pos, 5, color=(0, 255, 0))
+
+            # 利用cv2.putText输出1-68
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(img, str(idx), pos, font, 0.8, (0, 0, 255), 1, cv2.LINE_AA)
+
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    # plt.imshow(img)
+    # plt.show()
+
+    # cv2.namedWindow("img", 2)
+    # cv2.imshow("img", img)
+    # cv2.waitKey(0)
+
+    window = dlib.image_window()
+    window.set_image(img)
+    dlib.hit_enter_to_continue()
+
+
+
 if __name__ == '__main__':
-    path = r'C:\Users\Silance\Desktop\12122_zoom_gray.jpg'
-    n = 1
-    for path in glob.glob(path):
-        img = cv2.imread(path)
-        img = get_landmarks_m(img)
-        cv2.imwrite('%s.jpg'%n, img)
-        n += 1
+    # path = r'C:\Users\Silance\Desktop\12122_zoom_gray.jpg'
+    # n = 1
+    # for path in glob.glob(path):
+    #     img = cv2.imread(path)
+    #     img = get_landmarks_m(img)
+    #     cv2.imwrite('%s.jpg'%n, img)
+    #     n += 1
+
+
+    path = r'C:\Users\Silance\PycharmProjects\faceDig\test\20171019133653792.jpg'
+    show_image(path)
+
+
 

@@ -13,10 +13,17 @@ HAARCASCADES_PATH = os.path.abspath(
     )
 )
 
-PREDICTOR_PATH = os.path.abspath(
+LANDMARKS_68_PATH = os.path.abspath(
     os.path.join(
         os.path.dirname(__file__),
         'shape_predictor_68_face_landmarks.dat'
+    )
+)
+
+LANDMARKS_5_PATH = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        'shape_predictor_5_face_landmarks.dat'
     )
 )
 
@@ -69,4 +76,4 @@ NEGATIVE_REC_IMAGE = os.path.abspath(
 )
 
 if __name__ == '__main__':
-    print POSITIVE_IMAGE
+    print LANDMARKS_5_PATH
