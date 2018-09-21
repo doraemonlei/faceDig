@@ -1,7 +1,7 @@
 # 特纳综合征（Turner syndrome）人脸自动分类系统
-[![版本](https://img.shields.io/badge/python-2.7.12-blue.svg)](https://git.oschina.net/researchimage/facedig)
-[![系统](https://img.shields.io/badge/system-CentOS%2CUbuntu%2CWindows-blue.svg)](https://git.oschina.net/researchimage/facedig)
-[![谢谢](https://img.shields.io/badge/Say%20Thanks-!-green.svg)](https://git.oschina.net/researchimage/facedig)
+[![版本](https://img.shields.io/badge/python-2.7.12-blue.svg)](https://github.com/doraemonlei/faceDig)
+[![系统](https://img.shields.io/badge/system-CentOS%2CUbuntu%2CWindows-blue.svg)](https://github.com/doraemonlei/faceDig)
+[![谢谢](https://img.shields.io/badge/Say%20Thanks-!-green.svg)](https://github.com/doraemonlei/faceDig)
 
 ## 简介
 由于个体临床症状的多样性以及缺乏可靠的诊断标准，对特纳综合征（TS）的初步诊断主要依靠身高这一临床特征，从而导致很多特纳综合征患者前期被诊断为矮小症等其它疾病。为了提高诊断客观性和降低医生的工作强度，同时为了能让患者早发现早治疗，造福患者，本研究提出了一种辅助诊断的自动人脸分类方法。  

@@ -5,12 +5,13 @@
 @author: Silence
 预处理全部步骤，main函数入口
 '''
+
 import cv2
 import glob
 import time
 import os
-import dlib
 import datetime
+import dlib
 import numpy as np
 import multiprocessing
 from multiprocessing import Pool
@@ -22,7 +23,7 @@ PREDICTER_68_PATH = dataset.LANDMARKS_68_PATH
 
 def face_crop_byopencv(path):
     img = cv2.imread(path, cv2.IMREAD_COLOR)
-    print img
+    print(img)
     # img = tool_get_grey_image.get_img(path)
     face_cascade = cv2.CascadeClassifier('../tools/haarcascades/haarcascade_frontalface_alt_tree.xml')
     '''
@@ -39,15 +40,15 @@ def face_crop_byopencv(path):
     参数6、7：minSize和maxSize用来限制得到的目标区域的范围。
     '''
     faces = face_cascade.detectMultiScale(img, 1.3, 5)
-    print faces
+    print(faces)
     crop_face = 0
     for (x, y, w, h) in faces:
         crop_face = img[y:y + h, x:x + w]
     return crop_face
 
 
-# 人脸校正
-def faces_pre_alignment(path):
+# 人脸校正path
+def faces_pre_path_alignment(path):
     detector = dlib.get_frontal_face_detector()
     sp = dlib.shape_predictor(PREDICTER_5_PATH)
 
@@ -69,10 +70,33 @@ def faces_pre_alignment(path):
 
     return images
 
+# 人脸校正path
+def faces_pre_imgs_alignment(imgs):
+    detector = dlib.get_frontal_face_detector()
+    sp = dlib.shape_predictor(PREDICTER_5_PATH)
+
+    # img = cv2.imread(path, cv2.IMREAD_COLOR)
+    # img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+    dets = detector(imgs, 1)
+    num_faces = len(dets)
+    if num_faces == 0:
+        print("Sorry, there were no faces found in '{}'".format(path))
+        exit()
+
+    faces = dlib.full_object_detections()
+    for detection in dets:
+        faces.append(sp(imgs, detection))
+
+    # images = dlib.get_face_chips(img, faces, size=160, padding=0.25)
+    images = dlib.get_face_chips(imgs, faces, size=640, padding=0.25)
+
+    return images
 
 # dlib一幅图片有多张脸，参数为图像路径
 def faces_pre_crops_path_bydlib(path):
     img = cv2.imread(path, cv2.IMREAD_COLOR)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     detector = dlib.get_frontal_face_detector()
     faces = detector(img, 1)
     crop_faces = []
@@ -81,7 +105,7 @@ def faces_pre_crops_path_bydlib(path):
         y1 = face.top()
         x2 = face.right()
         y2 = face.bottom()
-        crop_face = img[y1 - 20:y2 + 20, x1 - 20:x2 + 20]
+        crop_face = img[y1 - 100:y2 + 100, x1 - 100:x2 + 100]
         crop_faces.append(crop_face)
     return crop_faces
 
@@ -136,11 +160,11 @@ def faces_main(imagepath, imagedir, savedir):
     num = len(imgs)
 
     count = imgs.index(imagepath) + 1
-    print '----------({}/{})开始处理图片{}----------'.format(count,num,imagepath)
+    print('----------({}/{})开始处理图片{}----------'.format(count,num,imagepath))
     # print '人脸识别...'
     start = datetime.datetime.now()
     # c_faces = pre_crops_bydlib(imagepath)
-    fs_align = faces_pre_alignment(imagepath)
+    fs_align = faces_pre_path_alignment(imagepath)
     # fs_crop = faces_pre_crops_imgs_bydlib(fs_align)
     end = datetime.datetime.now()
     # print '共检测出{}张脸...'.format(len(c_faces))
@@ -157,9 +181,9 @@ def faces_main(imagepath, imagedir, savedir):
             name, ext = os.path.splitext(filename)
             spath = os.path.join(savedir, name + '_%.f.jpg' % time.time())
             cv2.imwrite(spath, clahe_face)
-            print '                                           '
+            print('                                           ')
         except Exception as e:
-            print e
+            print(e)
 
 
 # 多进程处理
@@ -185,25 +209,29 @@ if __name__ == '__main__':
     imagedir = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test2'
     savedir = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test_2'
 
-    path = r'C:\Users\Silance\PycharmProjects\faceDig\test\20171019133653792.jpg'
+    path = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test2\20170810133434486.jpg'
 
     # main(4, faces_main, imagedir, savedir)
     # print face_alignment(path)
 
-    imgs = faces_pre_alignment(path)
+    faces = faces_pre_crops_path_bydlib(path)
+    print(faces)
 
-    for img in imgs:
-        detector = dlib.get_frontal_face_detector()
-        faces = detector(img, 1)
-        print faces
-        for face in faces:
-            x1 = face.left()
-            y1 = face.top()
-            x2 = face.right()
-            y2 = face.bottom()
+    imgs = faces_pre_imgs_alignment(faces[1])
+    # print imgs
+
+    # for img in imgs:
+    #     detector = dlib.get_frontal_face_detector()
+    #     faces = detector(img, 1)
+    #     # print faces
+    #     for face in faces:
+    #         x1 = face.left()
+    #         y1 = face.top()
+    #         x2 = face.right()
+    #         y2 = face.bottom()
 
     window = dlib.image_window()
-    window.set_image(img[0])
+    window.set_image(imgs)
     dlib.hit_enter_to_continue()
 
 

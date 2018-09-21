@@ -76,4 +76,4 @@ NEGATIVE_REC_IMAGE = os.path.abspath(
 )
 
 if __name__ == '__main__':
-    print LANDMARKS_5_PATH
+    print(LANDMARKS_5_PATH)

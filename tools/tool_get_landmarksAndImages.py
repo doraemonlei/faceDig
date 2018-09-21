@@ -105,6 +105,7 @@ def show_image(imagepath):
 
     # 人脸数rects
     rects = detector(img_gray, 0)
+    print rects
 
     for i in range(len(rects)):
         landmarks = np.matrix([[p.x, p.y] for p in predictor(img, rects[i]).parts()])
@@ -145,7 +146,7 @@ if __name__ == '__main__':
     #     n += 1
 
 
-    path = r'C:\Users\Silance\PycharmProjects\faceDig\test\20171019133653792.jpg'
+    path = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test2\20170810133434486.jpg'
     show_image(path)
 
 
