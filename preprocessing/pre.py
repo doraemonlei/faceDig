@@ -15,6 +15,7 @@ import dlib
 import numpy as np
 import multiprocessing
 from multiprocessing import Pool
+import tqdm
 
 import dataset
 
@@ -191,7 +192,7 @@ def main(maxprocess, function, imagedir, savedir):
     imgspath = face_pre_get_image_path(imagedir)
 
     p = Pool(maxprocess)
-    for imgpath in imgspath:
+    for imgpath in tqdm.tqdm(imgspath):
         p.apply_async(function, args=(imgpath, imagedir, savedir,))
     p.close()# 关闭进程池
     p.join()# 等待所有子进程完毕
@@ -206,32 +207,16 @@ if __name__ == '__main__':
     # faces_main(r'F:\image\imageData5\1000\*.jpg', r'F:\image\imageData5\1000p')
     # pre_crop_byopencv(r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\p\4-TS.JPG')
 
-    imagedir = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test2'
-    savedir = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test_2'
+    #imagedir = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test2'
+    #savedir = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test_2'
 
+    imagedir = r'E:\dataset\ts\front'
+    savedir = r'E:\dataset\ts\cl'
     path = r'C:\Users\Silance\PycharmProjects\faceDig\dataset\image\test2\20170810133434486.jpg'
 
-    # main(4, faces_main, imagedir, savedir)
-    # print face_alignment(path)
+    main(8, faces_main, imagedir, savedir)
+    #print(face_alignment(path))
 
-    faces = faces_pre_crops_path_bydlib(path)
-    print(faces)
 
-    imgs = faces_pre_imgs_alignment(faces[1])
-    # print imgs
-
-    # for img in imgs:
-    #     detector = dlib.get_frontal_face_detector()
-    #     faces = detector(img, 1)
-    #     # print faces
-    #     for face in faces:
-    #         x1 = face.left()
-    #         y1 = face.top()
-    #         x2 = face.right()
-    #         y2 = face.bottom()
-
-    window = dlib.image_window()
-    window.set_image(imgs)
-    dlib.hit_enter_to_continue()
 
 

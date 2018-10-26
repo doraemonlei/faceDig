@@ -105,7 +105,7 @@ def show_image(imagepath):
 
     # 人脸数rects
     rects = detector(img_gray, 0)
-    print rects
+    print(rects)
 
     for i in range(len(rects)):
         landmarks = np.matrix([[p.x, p.y] for p in predictor(img, rects[i]).parts()])

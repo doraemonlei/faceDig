@@ -27,6 +27,13 @@ LANDMARKS_5_PATH = os.path.abspath(
     )
 )
 
+RESNET_MODEL = os.path.abspath(
+    os.path.join(
+        os.path.dirname(__file__),
+        'dlib_face_recognition_resnet_model_v1'
+    )
+)
+
 FACEDATA_PATH = os.path.abspath(
     os.path.join(
         os.path.dirname(__file__),

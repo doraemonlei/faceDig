@@ -69,6 +69,6 @@ def get_gabor_feature(img):
 
 if __name__ == '__main__':
     img = get_img('../test/ts2.jpg')
-    print get_gabor_feature(img)
+    print(get_gabor_feature(img))
     # print np.max(get_gabor_feature('../test/ts2.jpg'))
     # print np.min(get_gabor_feature('../test/ts2.jpg'))
